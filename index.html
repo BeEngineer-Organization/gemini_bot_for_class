@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Bot</title>
+    <link rel="icon" href="./assets/gemini_logo.png">
+    <link rel="stylesheet" type="text/css" href="./styles/index.css" />
+    <!-- アイコンの導入 -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <!-- markdown に対応 -->
+    <!-- パッケージの導入 -->
+</head>
+
+<body class="body">
+    <div class="header">
+        <div class="header__left">
+            <span class="material-symbols-outlined header__icon">
+                arrow_back_ios_new
+            </span>
+            <span class="header__title">Gemini</span>
+        </div>
+        <div class="header__right">
+            <span class="material-symbols-outlined header__icon">
+                saved_search
+            </span>
+            <span class="material-symbols-outlined header__icon">
+                call
+            </span>
+            <span class="material-symbols-outlined header__icon">
+                menu
+            </span>
+        </div>
+    </div>
+
+    <!-- main 要素 -->
+    <div class="main-container" id="main_container">
+        <!-- 日付 -->
+        <div class="date">今日</div>
+        <!-- メッセージ (相手から)-->
+        <div class="message message--from-friend">
+            <!-- ユーザーアイコン -->
+            <img src="./assets/gemini_logo.png" alt="gemini_logo" class="message__icon">
+            <!--  メッセージ -->
+            <div class="message__content">
+                何か質問してみてください。
+            </div>
+            <!-- 時刻 -->
+            <div class="message__time" id="now_time"></div>
+        </div>
+    </div>
+    <div class="input-area">
+        <span class="material-symbols-outlined input-area__icon hidden" id="arrow_btn">
+            arrow_forward_ios
+        </span>
+        <span class="material-symbols-outlined input-area__icon" id="add_btn">
+            add
+        </span>
+        <span class="material-symbols-outlined input-area__icon" id="camera_btn">
+            photo_camera
+        </span>
+        <span class="material-symbols-outlined input-area__icon" id="image_btn">
+            image
+        </span>
+        <div class="input-area__input-container">
+            <input type="text" placeholder="Aa" class="input-area__input" id="input">
+        </div>
+        <span class="material-symbols-outlined input-area__icon button_mic" id="mic_btn">
+            mic
+        </span>
+        <span class="material-symbols-outlined input-area__icon button_send hidden" id="send_btn">
+            send
+        </span>
+    </div>
+</body>
+
+<template id="message_template_from_me">
+    <!-- メッセージ (自分から)-->
+    <div class="message message--from-me">
+        <!--  メッセージ -->
+        <div class="message__content message__content--from-me"></div>
+        <!-- 時刻 -->
+        <div class="message__info">
+            <div class="message__read">既読</div>
+            <div class="message__time"></div>
+        </div>
+    </div>
+</template>
+
+<template id="message_template_from_friend">
+    <!-- メッセージ (相手から)-->
+    <div class="message message--from-friend">
+        <!-- ユーザーアイコン -->
+        <img src="./assets/gemini_logo.png" alt="gemini_logo" class="message__icon">
+        <!--  メッセージ -->
+        <div class="message__content"></div>
+        <!-- 時刻 -->
+        <div class="message__time"></div>
+    </div>
+</template>
+
+<script type="module" src="./src/main.js"></script>
+
+</html>
