@@ -112,11 +112,8 @@ function toggleInputLeftBtn(isFocused) {
 async function sendMessage() {
   const content = elements.sendBox.value.trim();
   if (content !== "") {
-    const time = getFormattedTime();
-    createMessage(content, time);
     elements.sendBox.value = "";
     toggleMicSendButton();
-    await sendToGemini(content);
   }
 }
 
