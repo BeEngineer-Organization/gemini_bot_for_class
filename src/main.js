@@ -16,7 +16,7 @@ const elements = {
 };
 
 /**
- * 各種 DOM 要素を取得し、 elements オブジェクトに格納する
+ * 各種 DOM 要素を取得し、elements オブジェクトに格納する
  */
 function initializeElements() {
   elements.sendBox = document.querySelector("#input");
@@ -46,7 +46,9 @@ function initializeEvents() {
   elements.sendBox.addEventListener("blur", () => toggleInputLeftBtn(false));
 }
 
-// Gemini にデモでリクエストを送信する
+/**
+ * Gemini にデモでリクエストを送信する
+ */
 async function exampleSendToGemini(message) {}
 
 /**
@@ -62,6 +64,23 @@ async function sendToGemini(message) {}
  * @param {boolean} [isFromMe=true] - メッセージがユーザーからのものであるかどうか
  */
 function createMessage(content, time, isFromMe = true) {}
+
+/**
+ * 入力欄の内容をもとにメッセージを送信する
+ */
+async function sendMessage() {
+  const content = elements.sendBox.value.trim();
+  if (content !== "") {
+    elements.sendBox.value = "";
+    toggleMicSendButton();
+  }
+}
+
+/**
+ * 現在の時刻を HH:MM 形式で返す
+ * @returns {string} フォーマットされた時刻文字列
+ */
+function getFormattedTime() {}
 
 /**
  * メッセージコンテナをボトムまでスクロールする
@@ -105,23 +124,6 @@ function toggleInputLeftBtn(isFocused) {
     elements.arrowBtn.classList.add("hidden");
   }
 }
-
-/**
- * 入力欄の内容をもとにメッセージを送信する
- */
-async function sendMessage() {
-  const content = elements.sendBox.value.trim();
-  if (content !== "") {
-    elements.sendBox.value = "";
-    toggleMicSendButton();
-  }
-}
-
-/**
- * 現在の時刻を HH:MM 形式で返す
- * @returns {string} フォーマットされた時刻文字列
- */
-function getFormattedTime() {}
 
 /**
  * Enter キーが押されたらメッセージを送信
