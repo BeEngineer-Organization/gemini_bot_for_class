@@ -1,5 +1,4 @@
 // パッケージの追加
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { APIKEY } from "./env.js";
 
 // DOM 要素や状態を管理するオブジェクト
