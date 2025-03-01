@@ -1,150 +1,150 @@
 // パッケージの追加
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { APIKEY } from "./env.js";
 
+// DOM 要素や状態を管理するオブジェクト
+const elements = {
+  sendBox: null,
+  messageContainer: null,
+  addBtn: null,
+  cameraBtn: null,
+  imageBtn: null,
+  arrowBtn: null,
+  micBtn: null,
+  sendBtn: null,
+  nowTime: null,
+  isComposing: false
+};
+
 /**
- * メッセージの操作と UI 更新を管理するクラス
+ * 各種 DOM 要素を取得し、 elements オブジェクトに格納する
  */
-class MessageManager {
-  constructor() {
-    this.initializeElements();
-    this.isComposing = false;
-    this.initializeEvents();
-    document.querySelector(".message__time#now_time").innerHTML =
-      this.getFormattedTime();
+function initializeElements() {
+  elements.sendBox = document.querySelector("#input");
+  elements.messageContainer = document.querySelector("#main_container");
+  elements.addBtn = document.querySelector("#add_btn");
+  elements.cameraBtn = document.querySelector("#camera_btn");
+  elements.imageBtn = document.querySelector("#image_btn");
+  elements.arrowBtn = document.querySelector("#arrow_btn");
+  elements.micBtn = document.querySelector("#mic_btn");
+  elements.sendBtn = document.querySelector("#send_btn");
+  elements.nowTime = document.querySelector(".message__time#now_time");
+}
+
+/**
+ * イベントリスナーの登録
+ */
+function initializeEvents() {
+  elements.sendBox.addEventListener("input", toggleMicSendButton);
+  elements.sendBox.addEventListener("compositionstart", () => {
+    elements.isComposing = true;
+  });
+  elements.sendBox.addEventListener("compositionend", () => {
+    elements.isComposing = false;
+  });
+  elements.sendBox.addEventListener("keydown", handleEnterKey);
+  elements.sendBox.addEventListener("focus", () => toggleInputLeftBtn(true));
+  elements.sendBox.addEventListener("blur", () => toggleInputLeftBtn(false));
+}
+
+// Gemini にデモでリクエストを送信する
+async function exampleSendToGemini(message) {}
+
+/**
+ * Gemini にメッセージを送信し、レスポンスを取得する
+ * @param {string} message
+ */
+async function sendToGemini(message) {}
+
+/**
+ * 新しいメッセージを作成し、メッセージコンテナに追加する
+ * @param {string} content - メッセージ内容
+ * @param {string} time - メッセージの送信時刻
+ * @param {boolean} [isFromMe=true] - メッセージがユーザーからのものであるかどうか
+ */
+function createMessage(content, time, isFromMe = true) {}
+
+/**
+ * メッセージコンテナをボトムまでスクロールする
+ * @param {HTMLElement} target - スクロール対象の要素
+ */
+function scrollToBottom(target) {
+  elements.messageContainer.scrollTop = elements.messageContainer.scrollHeight;
+  const targetPosition = target.offsetTop;
+  const offset = window.innerHeight * 0.3;
+  elements.messageContainer.scrollTop = targetPosition - offset;
+}
+
+/**
+ * 入力ボックスの値に応じてマイクボタンと送信ボタンの表示を切り替える
+ */
+function toggleMicSendButton() {
+  const sendBoxValue = elements.sendBox.value;
+  if (sendBoxValue.trim() === "") {
+    elements.micBtn.classList.remove("hidden");
+    elements.sendBtn.classList.add("hidden");
+  } else {
+    elements.micBtn.classList.add("hidden");
+    elements.sendBtn.classList.remove("hidden");
   }
+}
 
-  /**
-   * クラスで使用する DOM 要素を初期化する
-   */
-  initializeElements() {
-    this.sendBox = document.querySelector("#input");
-    this.messageContainer = document.querySelector("#main_container");
-    this.addBtn = document.querySelector("#add_btn");
-    this.cameraBtn = document.querySelector("#camera_btn");
-    this.imageBtn = document.querySelector("#image_btn");
-    this.arrowBtn = document.querySelector("#arrow_btn");
-    this.micBtn = document.querySelector("#mic_btn");
-    this.sendBtn = document.querySelector("#send_btn");
+/**
+ * 入力ボックスのフォーカス状態に応じてボタンの表示を切り替える
+ */
+function toggleInputLeftBtn(isFocused) {
+  const notFocusBtns = [elements.addBtn, elements.cameraBtn, elements.imageBtn];
+  if (isFocused) {
+    notFocusBtns.forEach((btn) => {
+      btn.classList.add("hidden");
+    });
+    elements.arrowBtn.classList.remove("hidden");
+  } else {
+    notFocusBtns.forEach((btn) => {
+      btn.classList.remove("hidden");
+    });
+    elements.arrowBtn.classList.add("hidden");
   }
+}
 
-  /**
-   * 各 UI 要素にイベントリスナーを設定する
-   */
-  initializeEvents() {
-    this.sendBox.addEventListener("input", () =>
-      this.toggleMicSendButton()
-    );
-    this.sendBox.addEventListener(
-      "compositionstart",
-      () => (this.isComposing = true)
-    );
-    this.sendBox.addEventListener(
-      "compositionend",
-      () => (this.isComposing = false)
-    );
-    this.sendBox.addEventListener("keydown", (e) => this.handleEnterKey(e));
-    this.sendBox.addEventListener("focus", () =>
-      this.toggleInputLeftBtn(true)
-    );
-    this.sendBox.addEventListener("blur", () =>
-      this.toggleInputLeftBtn(false)
-    );
+/**
+ * 入力欄の内容をもとにメッセージを送信する
+ */
+async function sendMessage() {
+  const content = elements.sendBox.value.trim();
+  if (content !== "") {
+    const time = getFormattedTime();
+    createMessage(content, time);
+    elements.sendBox.value = "";
+    toggleMicSendButton();
+    await sendToGemini(content);
   }
+}
 
-  /**
-   * メッセージコンテナをボトムまでスクロールする
-   * @param {HTMLElement} target - スクロール対象の要素
-   */
-  scrollToBottom(target) {
-    this.messageContainer.scrollTop = this.messageContainer.scrollHeight;
-    const targetPosition = target.offsetTop;
-    const offset = window.innerHeight * 0.3;
-    this.messageContainer.scrollTop = targetPosition - offset;
+/**
+ * 現在の時刻を HH:MM 形式で返す
+ * @returns {string} フォーマットされた時刻文字列
+ */
+function getFormattedTime() {}
+
+/**
+ * Enter キーが押されたらメッセージを送信
+ * @param {KeyboardEvent} e
+ */
+function handleEnterKey(e) {
+  if (e.key === "Enter" && !elements.isComposing) {
+    e.preventDefault();
+    sendMessage();
   }
-
-  /**
-   * 入力ボックスの値に応じてマイクボタンと送信ボタンの表示を切り替える
-   */
-  toggleMicSendButton() {
-    const sendBoxValue = this.sendBox.value;
-    if (sendBoxValue.trim() === "") {
-      this.micBtn.classList.remove("hidden");
-      this.sendBtn.classList.add("hidden");
-    } else {
-      this.micBtn.classList.add("hidden");
-      this.sendBtn.classList.remove("hidden");
-    }
-  }
-
-  /**
-   * 入力ボックスのフォーカス状態に応じてボタンの表示を切り替える
-   * @param {boolean} isFocused - 入力ボックスがフォーカスされているかどうか
-   */
-  toggleInputLeftBtn(isFocused) {
-    const notFocusBtns = [this.addBtn, this.cameraBtn, this.imageBtn];
-    if (isFocused) {
-      notFocusBtns.forEach((btn) => {
-        btn.classList.add("hidden");
-      });
-        this.arrowBtn.classList.remove("hidden");
-    } else {
-      notFocusBtns.forEach((btn) => {
-        btn.classList.remove("hidden");
-      });
-      this.arrowBtn.classList.add("hidden");
-    }
-  }
-
-  /**
-   * Enter キーが押された際にメッセージを送信する
-   * @param {KeyboardEvent} e - キーボードイベント
-   */
-  handleEnterKey(e) {
-    if (e.key === "Enter" && !this.isComposing) {
-      e.preventDefault();
-      this.sendMessage();
-    }
-  }
-
-  /**
-   * メッセージ内容を Gemini AI モデルに送信し、レスポンスメッセージを作成する
-   * @param {string} message - 送信するメッセージ内容
-   */
-  async sendToGemini(message) {}
-
-  /**
-   * 入力ボックスに入力されたメッセージを送信する
-   */
-  async sendMessage() {
-    const content = this.sendBox.value.trim();
-    if (content !== "") {
-      const time = this.getFormattedTime();
-      this.createMessage(content, time);
-      this.sendBox.value = "";
-      this.toggleMicSendButton();
-      await this.sendToGemini(content);
-    }
-  }
-
-  /**
-   * 現在の時刻を HH:MM 形式で返す
-   * @returns {string} フォーマットされた時刻文字列
-   */
-  getFormattedTime() {}
-
-  /**
-   * 新しいメッセージを作成し、メッセージコンテナに追加する
-   * @param {string} content - メッセージ内容
-   * @param {string} time - メッセージの送信時刻
-   * @param {boolean} [isFromMe=true] - メッセージがユーザーからのものであるかどうか
-   */
-  createMessage(content, time, isFromMe = true) {}
 }
 
 // 初期化
 document.addEventListener("DOMContentLoaded", () => {
-  const messageManager = new MessageManager();
-  // Gemini にリクエストを送信する関数を作成する
+  initializeElements();
+  initializeEvents();
+  // 現在時刻を表示
+  if (elements.nowTime) {
+    elements.nowTime.innerHTML = getFormattedTime();
+  }
+  // Gemini にデモでリクエストを送信する関数を実行する
 });
-
-// Gemini にリクエストを送信する関数を作成する
