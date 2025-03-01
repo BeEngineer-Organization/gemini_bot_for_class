@@ -83,7 +83,7 @@ async function sendMessage() {
 function getFormattedTime() {}
 
 /**
- * メッセージコンテナをボトムまでスクロールする
+ * メッセージコンテナをボトムまでスクロールする（今回の授業には関係ない）
  * @param {HTMLElement} target - スクロール対象の要素
  */
 function scrollToBottom(target) {
@@ -94,7 +94,7 @@ function scrollToBottom(target) {
 }
 
 /**
- * 入力ボックスの値に応じてマイクボタンと送信ボタンの表示を切り替える
+ * 入力ボックスの値に応じてマイクボタンと送信ボタンの表示を切り替える（今回の授業には関係ない）
  */
 function toggleMicSendButton() {
   const sendBoxValue = elements.sendBox.value;
@@ -108,7 +108,7 @@ function toggleMicSendButton() {
 }
 
 /**
- * 入力ボックスのフォーカス状態に応じてボタンの表示を切り替える
+ * 入力ボックスのフォーカス状態に応じてボタンの表示を切り替える（今回の授業には関係ない）
  */
 function toggleInputLeftBtn(isFocused) {
   const notFocusBtns = [elements.addBtn, elements.cameraBtn, elements.imageBtn];
